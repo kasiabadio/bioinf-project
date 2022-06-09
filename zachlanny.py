@@ -17,6 +17,7 @@ class Graph:
         sequence += i[1:]
         return sequence
 
+
     def print_all_paths_util(self, u, visited, path, all):
         global N, S0
         visited[u] -= 1
