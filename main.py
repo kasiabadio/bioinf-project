@@ -2,6 +2,7 @@ from xml.dom import minidom
 
 # funkcja do przejścia przez wierzchołki
 def eulerian_path(k_dict, start, path_length):
+        global file, dna, N, S0, probe, K, olis
         stack = []
         path = []
         temp_start = start[:K-1]
@@ -30,7 +31,8 @@ def eulerian_path(k_dict, start, path_length):
         return path
 
 # funkcja do zamiany tablicy z fragmentami w graf
-def create_debrujin_graph(olis):
+def create_debrujin_graph():
+    global file, dna, N, S0, probe, K, olis
     kmers = []
     k_dict = {}
     for oli in olis:   
@@ -52,9 +54,10 @@ def read_answer(k_list):
         sequence += i[1:]
         return sequence
 
-if __name__ == '__main__':
-    
-    # parsuj xml
+
+def read_basic_instance():
+    global file, dna, N, S0, probe, K, olis
+     # parsuj xml
     file = minidom.parse(input())
     #file = minidom.parse('bio.php.xml')
     dna = file.firstChild
@@ -63,10 +66,21 @@ if __name__ == '__main__':
     probe = dna.getElementsByTagName('probe')[0]
     K = len(probe.getAttribute('pattern')) # długość sond oligonukleotydowych
    
-    olis = []
+    
     for oli in probe.getElementsByTagName('cell'):
         olis.append(oli.firstChild.nodeValue)
+
+if __name__ == '__main__':
     
-    k_dict = create_debrujin_graph(olis)
+    file = -1
+    dna = -1
+    N = -1
+    S0 = ''
+    probe = ''
+    K = -1
+    olis = []
+    
+    read_basic_instance()
+    k_dict = create_debrujin_graph()
     path = eulerian_path(k_dict, S0, N)
     print(read_answer(path))
