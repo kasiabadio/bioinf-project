@@ -57,7 +57,22 @@ def read_answer(k_list):
 
 def read_basic_instance():
     global file, dna, N, S0, probe, K, olis
-     # parsuj xml
+    # parsuj xml
+    file = minidom.parse(input())
+    #file = minidom.parse('bio.php.xml')
+    dna = file.firstChild
+    N = int(dna.getAttribute('length')) #długość badanej sekwencji
+    S0 = dna.getAttribute('start') # początkowy fragment długości k
+    probe = dna.getElementsByTagName('probe')[0]
+    K = len(probe.getAttribute('pattern')) # długość sond oligonukleotydowych
+   
+    for oli in probe.getElementsByTagName('cell'):
+        olis.append(oli.firstChild.nodeValue)
+
+
+def read_test_instance():
+    global file, dna, N, S0, probe, K, olis
+    # parsuj xml
     file = minidom.parse(input())
     #file = minidom.parse('bio.php.xml')
     dna = file.firstChild
@@ -67,8 +82,15 @@ def read_basic_instance():
     K = len(probe.getAttribute('pattern')) # długość sond oligonukleotydowych
    
     
+    oli_based_on_dna_chain = N - K + 1
+    oli_count = 0
     for oli in probe.getElementsByTagName('cell'):
+        oli_count += int(oli.getAttribute('intensity'))
         olis.append(oli.firstChild.nodeValue)
+    
+    positive_errors = oli_count - oli_based_on_dna_chain
+    print(oli_count, oli_based_on_dna_chain, positive_errors)
+
 
 if __name__ == '__main__':
     
@@ -79,8 +101,9 @@ if __name__ == '__main__':
     probe = ''
     K = -1
     olis = []
-    
-    read_basic_instance()
+
+    #read_basic_instance()
+    read_test_instance()
     k_dict = create_debrujin_graph()
     path = eulerian_path(k_dict, S0, N)
     print(read_answer(path))
