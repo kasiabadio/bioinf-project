@@ -10,25 +10,33 @@ class Graph:
         self.V = vertices
         self.graph = defaultdict(list)
 
-    def print_all_paths_util(self, u, visited, path):
+    def read_answer(self, k_list):
+        sequence = ''
+        for i in k_list:
+            sequence += i[0]
+        sequence += i[1:]
+        return sequence
+
+    def print_all_paths_util(self, u, visited, path, all):
         global N, S0
         visited[u] -= 1
         path.append(u)
+        chosen_i = -1
+        for i in self.graph[u]:
+            max_value = -1
+            if visited[i] > 0 and visited[i] > max_value:
+                max_value = visited[i]
+                chosen_i = i
 
-        if len(path) == N:
-            print(path)
+        if chosen_i == -1:
+            all.append(self.read_answer(path))
         else:
-            chosen_i = 0
-            for i in self.graph[u]:
-                max_value = -1
-                if visited[i] > 0 and visited[i] > max_value:
-                    max_value = visited[i]
-                    chosen_i = i
-            self.print_all_paths_util(chosen_i, visited, path)
+            self.print_all_paths_util(chosen_i, visited, path, all)
+
     
-    def print_all_paths(self, path):
+    def print_all_paths(self, path, all):
         global S0, visited_with_counter
-        self.print_all_paths_util(S0, visited_with_counter, path)
+        self.print_all_paths_util(S0, visited_with_counter, path, all)
         
     def create_graph(self, olis):
         global K
@@ -80,11 +88,19 @@ if __name__ == '__main__':
     start_time = time.time()
 
     path = []
+    all = []
     g = Graph(N)
     g.create_graph(olis)
     g.print_graph()
+    g.print_all_paths(path, all)
+    
 
     end_time = time.time()
+
     elapsed = round(end_time - start_time, 6)
+
+    for e in all:
+        print(len(e))
+        print(all, end="\n")
     
     
