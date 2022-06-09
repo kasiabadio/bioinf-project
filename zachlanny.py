@@ -21,17 +21,30 @@ class Graph:
         global N, S0
         visited[u] -= 1
         path.append(u)
-        chosen_i = -1
-        for i in self.graph[u]:
-            max_value = -1
-            if visited[i] > 0 and visited[i] > max_value:
-                max_value = visited[i]
-                chosen_i = i
 
-        if chosen_i == -1:
+        # TODO: potencjalnie tutaj można zmniejszyć czas wyszukiwania, przez nie przechodzenie po wszystkich ścieżkach 
+        #for _ in range(len(self.graph[u])):
+
+        # wybierz wierzchołek, który występuje najwięcej razy w grafie
+        chosen_j = -1
+        for j in self.graph[u]:
+            max_value = -1
+            if j == 0:
+                max_value = visited[0]
+            if visited[j] > 0 and visited[j] > max_value:
+                max_value = visited[j]
+                chosen_j = j
+        
+        # jeżeli nie ma następnika, to dodaj ścieżkę
+        if chosen_j == -1:
             all.append(self.read_answer(path))
+        # jeżeli są następnicy, to wybierz wierzchołek o największej liczności
         else:
-            self.print_all_paths_util(chosen_i, visited, path, all)
+            self.print_all_paths_util(chosen_j, visited, path, all)
+
+        # usuń wierzchołek ze ścieżki i zaznacz jako niezaznaczony
+        path.pop()
+        visited[u] += 1
 
     
     def print_all_paths(self, path, all):
@@ -100,7 +113,8 @@ if __name__ == '__main__':
     elapsed = round(end_time - start_time, 6)
 
     for e in all:
-        print(len(e))
-        print(all, end="\n")
-    
+        if (len(e) <= N):
+            print(len(e))
+
+    print(len(all))
     
