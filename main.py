@@ -8,7 +8,7 @@ def eulerian_path(k_dict, start, path_length):
         temp_stack = {key: val for key, val in k_dict.items()
                if key.startswith(temp_start)}
         #print("temp_stack", temp_stack)
-        
+
         temp_key = list(temp_stack.keys())
         temp_value = list(temp_stack.values())
         stack.append(temp_key[0])
@@ -45,17 +45,23 @@ def create_debrujin_graph(olis):
 
     return k_dict
 
-if __name__ == '__main__':
-    print("INFORMACJA O POWTORZENIACH, BLEDY POZYTYWNE")
+def read_answer(k_list):
+        sequence = ''
+        for i in k_list:
+            sequence += i[0]
+        sequence += i[1:]
+        return sequence
 
+if __name__ == '__main__':
+    
     # parsuj xml
-    file = minidom.parse('bio.php.xml')
+    file = minidom.parse(input())
+    #file = minidom.parse('bio.php.xml')
     dna = file.firstChild
     N = int(dna.getAttribute('length')) #długość badanej sekwencji
     S0 = dna.getAttribute('start') # początkowy fragment długości k
     probe = dna.getElementsByTagName('probe')[0]
     K = len(probe.getAttribute('pattern')) # długość sond oligonukleotydowych
-    print("Długość sekwencji: ", N, " Fragment początkowy: ", S0, " Długość sond: ", K)
    
     olis = []
     for oli in probe.getElementsByTagName('cell'):
@@ -63,4 +69,4 @@ if __name__ == '__main__':
     
     k_dict = create_debrujin_graph(olis)
     path = eulerian_path(k_dict, S0, N)
-    print(path)
+    print(read_answer(path))
