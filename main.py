@@ -1,6 +1,6 @@
 from xml.dom import minidom
 
-# funkcja do zamiany sekwencji w graf
+# funkcja do zamiany tablicy z fragmentami w graf
 def create_debrujin_graph(olis):
     kmers = []
     k_dict = {}
@@ -29,4 +29,8 @@ if __name__ == '__main__':
     print("Długość sekwencji: ", N, " Fragment początkowy: ", S0, " Długość sond: ", K)
    
     olis = []
+    for oli in probe.getElementsByTagName('cell'):
+        olis.append(oli.firstChild.nodeValue)
+    
+    k_mers = create_debrujin_graph(olis)
     
