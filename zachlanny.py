@@ -2,7 +2,7 @@ from email.policy import default
 from xml.dom import minidom
 import time
 from collections import defaultdict
-
+import random
 
 class Graph:
 
@@ -20,28 +20,23 @@ class Graph:
 
     def print_all_paths_util(self, u, visited, path, all):
         global N, S0
+        
         visited[u] -= 1
         path.append(u)
 
-        # TODO: potencjalnie tutaj można zmniejszyć czas wyszukiwania, przez nie przechodzenie po wszystkich ścieżkach 
-        #for _ in range(len(self.graph[u])):
-
-        # wybierz wierzchołek, który występuje najwięcej razy w grafie
-        chosen_j = -1
+        # wybierz wierzchołek
+        to_choose_from = []
         for j in self.graph[u]:
-            max_value = -1
-            if j == 0:
-                max_value = visited[0]
-            if visited[j] > 0 and visited[j] > max_value:
-                max_value = visited[j]
-                chosen_j = j
+            if visited[j] > 0:
+                to_choose_from.append(j)
         
-        # jeżeli nie ma następnika, to dodaj ścieżkę
-        if chosen_j == -1:
-            all.append(self.read_answer(path))
-        # jeżeli są następnicy, to wybierz wierzchołek o największej liczności
-        else:
+        if len(to_choose_from) > 0: 
+            # wybierz losowy wierzchołek
+            chosen_j = random.choice(to_choose_from)
             self.print_all_paths_util(chosen_j, visited, path, all)
+        else:
+            # jeżeli nie ma następnika, to dodaj ścieżkę
+            all.append(self.read_answer(path))
 
         # usuń wierzchołek ze ścieżki i zaznacz jako niezaznaczony
         path.pop()
@@ -106,7 +101,8 @@ if __name__ == '__main__':
     g = Graph(N)
     g.create_graph(olis)
     g.print_graph()
-    g.print_all_paths(path, all)
+    for i in range(1000):
+        g.print_all_paths(path, all)
     
 
     end_time = time.time()

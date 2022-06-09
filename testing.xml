@@ -1,0 +1,21 @@
+<dna key="2552904" length="8" start="ACTT">
+<!-- [number of matches] -> [intensity signal] 
+  0  ->  0 
+  1  -> 1-3
+  2  -> 3-5
+  3  -> 5-7
+  4  -> 6-8
+  5  -> 7-8
+  6  -> 7-9
+  7  -> 8-9
+  8  -> 8-9 
+  9+ ->  9 
+-->
+	<probe pattern="NNNN">
+		<cell intensity="2">ACTT</cell>
+		<cell intensity="2">CTTG</cell>
+		<cell intensity="3">TTGA</cell>
+		<cell intensity="3">TGAC</cell>
+		<cell intensity="3">GACT</cell>
+	</probe>
+</dna>
