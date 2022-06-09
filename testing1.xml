@@ -12,10 +12,10 @@
   9+ ->  9 
 -->
 	<probe pattern="NNNN">
-		<cell intensity="1">ACTT</cell>
+		<cell intensity="3">TGAC</cell>
 		<cell intensity="1">CTTG</cell>
 		<cell intensity="1">TTGA</cell>
-		<cell intensity="1">TGAC</cell>
-		<cell intensity="1">GACT</cell>
+		<cell intensity="3">GACT</cell>
+    <cell intensity="2">ACTT</cell>
 	</probe>
 </dna>

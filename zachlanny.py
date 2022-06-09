@@ -34,12 +34,12 @@ class Graph:
             # wybierz losowy wierzchołek
             chosen_j = random.choice(to_choose_from)
             self.print_all_paths_util(chosen_j, visited, path, all)
-        else:
+        else :
             # jeżeli nie ma następnika, to dodaj ścieżkę
-            all.append(self.read_answer(path))
-
-        # usuń wierzchołek ze ścieżki i zaznacz jako niezaznaczony
-        path.pop()
+            answer = self.read_answer(path)
+            if answer not in all:
+                all.append(answer)
+        
         visited[u] += 1
 
     
@@ -101,7 +101,8 @@ if __name__ == '__main__':
     g = Graph(N)
     g.create_graph(olis)
     g.print_graph()
-    for i in range(1000):
+    for i in range(5):
+        path = []
         g.print_all_paths(path, all)
     
 
@@ -109,9 +110,8 @@ if __name__ == '__main__':
 
     elapsed = round(end_time - start_time, 6)
 
-    for e in all:
-        if (len(e) <= N):
-            print(len(e))
+    # for e in all:
+    #     if (len(e) <= N):
+    #         print(len(e))
 
     print(len(all))
-    
