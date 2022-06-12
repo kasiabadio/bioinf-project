@@ -1,4 +1,4 @@
-from email.policy import default
+
 from xml.dom import minidom
 import time
 from collections import defaultdict
@@ -105,13 +105,11 @@ if __name__ == '__main__':
         path = []
         g.print_all_paths(path, all)
     
-
     end_time = time.time()
-
     elapsed = round(end_time - start_time, 6)
 
-    # for e in all:
-    #     if (len(e) <= N):
-    #         print(len(e))
+    for el in all:
+        print(len(el), end="\n")
 
-    print(len(all))
+    print(all)
+    print("Elapsed time greedy: ", elapsed, " s")
