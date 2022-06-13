@@ -1,0 +1,30 @@
+<dna key="2552904" length="8" start="TCG">
+<!-- [number of matches] -> [intensity signal] 
+  0  ->  0 
+  1  -> 1-3
+  2  -> 3-5
+  3  -> 5-7
+  4  -> 6-8
+  5  -> 7-8
+  6  -> 7-9
+  7  -> 8-9
+  8  -> 8-9 
+  9+ ->  9 
+
+ TCGTACGAC or TCGACGTAC
+
+ ACTTGACTT
+
+ possible answers TCG TACGAC or TCG ACGTAC
+-->
+	<probe pattern="NNN">
+		<cell intensity="1">ACG</cell>
+		<cell intensity="1">CGA</cell>
+		<cell intensity="1">CGT</cell>
+		<cell intensity="1">GAC</cell>
+		<cell intensity="1">GTA</cell>
+		<cell intensity="1">TAC</cell>
+		<cell intensity="1">TCG</cell>
+	</probe>
+</dna>
+

@@ -4,6 +4,9 @@ import time
 from collections import defaultdict
 import random
 
+
+
+
 class Graph:
 
     def __init__(self, vertices):
@@ -162,7 +165,7 @@ def main_tabu():
             print("TABU: ", tabu)
             print("VISITED WITH COUNTER: ", visited_with_counter)
             # 12, 13) insertion or deletion of an lmer
-            if len(tabu) >= 10:
+            if len(tabu) >= 1 + len(olis)//10:      #tabu_size
                 tabu.pop(0)
 
             is_inserted = False
