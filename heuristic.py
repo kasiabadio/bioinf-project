@@ -89,7 +89,8 @@ def extend_move_insert(mer):
     global best_solution, tabu, K, S0
     
     # check if can be improved
-    if best_solution[(len(best_solution)-K):] != mer[:-1]:
+    if best_solution[(len(best_solution)-K+1):] != mer[:-1]:
+        print("Comparison insertion: ", best_solution[(len(best_solution)-K+1):], mer[:-1])
         # return false if no improvement
         return False
     
@@ -172,7 +173,7 @@ def main_tabu():
                     # check counter in visited_with_counter && add fragment to lmers because it is useful
                     if visited_with_counter[oli] > 0:
                         is_inserted = extend_move_insert(oli)
-                        print("I checked addition for ", oli, " and it is ", is_inserted)
+                        #print("I checked addition for ", oli, " and it is ", is_inserted)
                         if is_inserted:
                             lmers[oli] += 1
                             visited_with_counter[oli] -= 1
