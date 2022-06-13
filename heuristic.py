@@ -129,14 +129,18 @@ def restart(reference_set, greedy_solution):
 
 def main_tabu():
     global best_solution, olis, K, S0, visited_with_counter
-    reference_set = [best_solution, '']
-
+    
+    visited_with_counter_copy = visited_with_counter.copy()
     # add olis to lmers from first greedy solution
     greedy_solution = greedy_algorithm()
+    visited_with_counter = visited_with_counter_copy
     for i in range(len(greedy_solution)-1):
         to_add = greedy_solution[i:(i+K)]
         if to_add in lmers:
             lmers[to_add] += 1
+
+    best_solution = greedy_solution
+    reference_set = [best_solution, '']
  
     # 3) while not all restarts done
     i = 0
@@ -144,6 +148,8 @@ def main_tabu():
         # replace the worst solution from reference_set by greedy solution
         if len(reference_set) > 1:
             greedy_solution = greedy_algorithm()
+            visited_with_counter = visited_with_counter_copy
+
             reference_set = restart(reference_set, greedy_solution)
 
         reference_set = sorted(reference_set, key=lambda x: len(x), reverse=True)
@@ -238,7 +244,8 @@ if __name__ == '__main__':
 
     read_instance()
     print("MAIN VISITED WITH COUNTER ", visited_with_counter)
-    best_solution = greedy_algorithm()
+    #best_solution = greedy_algorithm()
+    best_solution = []
     #print("greedy: ", best_solution)
 
     # HEURISTIC
