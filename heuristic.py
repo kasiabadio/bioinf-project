@@ -147,8 +147,12 @@ def main_tabu():
     reference_set = [best_solution, '']
  
     # 3) while not all restarts done
-    i = 0
-    while i < 20:   
+    loop_count = 0
+
+    lenghts_tab = []
+    del_insert_tab = [[],[]]
+    while loop_count < 20:  
+        print("loop_count: ", loop_count)
         # replace the worst solution from reference_set by greedy solution
         if len(reference_set) > 1:
             greedy_solution = greedy_algorithm()
@@ -169,7 +173,9 @@ def main_tabu():
         # 4) while not all cycles of restarts do 12, 13
         deletion_count = 0
         insertion_count = 0
-        for i in range(500):
+
+
+        for i in range(400):
             #save full length solutions
             if(len(best_solution) == N and best_solution not in final_solutions):
                 final_solutions.append(best_solution)
@@ -230,10 +236,17 @@ def main_tabu():
         #print("reference_set[0] ", reference_set[0])
         olis = sorted(lmers, key=lambda lmer: lmers[lmer])
         
-        i += 1
+        loop_count += 1
+        print("ina koniec", loop_count)
         print("\n\nbest_solution after changes: ", best_solution)
         print("Wydluzylismy o:", len(best_solution) - len(first_sol))
-        print("\ndeleted: ", deletion_count, "inserted", insertion_count)
+        lenghts_tab.append(len(best_solution))
+        print("\ndeleted: ", deletion_count, " inserted", insertion_count)
+        print("Szukana dlugosc lancucha: ", N, " dlugosc znalezionego lancucha: ", len(best_solution))
+        del_insert_tab[0].append(deletion_count)
+        del_insert_tab[1].append(insertion_count)
+    print("\n\n------FINAL: \n searching for length: ", N, "\nour lengths: \n", lenghts_tab, "\n deletion count: \n", del_insert_tab[0], "insertion count: \n", del_insert_tab[1])
+
 
 
        
@@ -276,7 +289,7 @@ if __name__ == '__main__':
     final_solutions = []
 
     read_instance()
-    print("MAIN VISITED WITH COUNTER ", visited_with_counter)
+    #print("MAIN VISITED WITH COUNTER ", visited_with_counter)
     #best_solution = greedy_algorithm()
     best_solution = []
     #print("greedy: ", best_solution)
