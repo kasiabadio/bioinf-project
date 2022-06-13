@@ -93,7 +93,7 @@ def extend_move_insert(mer):
     
     # check if can be improved
     if best_solution[(len(best_solution)-K+1):] != mer[:-1]:
-        print("Comparison insertion: ", best_solution[(len(best_solution)-K+1):], mer[:-1])
+        #print("Comparison insertion: ", best_solution[(len(best_solution)-K+1):], mer[:-1])
         # return false if no improvement
         return False
     
@@ -158,23 +158,29 @@ def main_tabu():
 
         reference_set = sorted(reference_set, key=lambda x: len(x), reverse=True)
         best_solution = reference_set[0]
-        #save full length solutions
+
+        first_sol = best_solution
+        print("\nbest_solution before extending/deleting: \n", best_solution)
+        
         
 
-        print("reference_set after sorting ", reference_set)
+        #print("reference_set after sorting ", reference_set)
 
         # 4) while not all cycles of restarts do 12, 13
-        for i in range(100):
-
+        deletion_count = 0
+        insertion_count = 0
+        for i in range(500):
+            #save full length solutions
             if(len(best_solution) == N and best_solution not in final_solutions):
                 final_solutions.append(best_solution)
                 reference_set.pop(0)
                 greedy_solution = greedy_algorithm()
                 reference_set.append( greedy_solution )
                 visited_with_counter = visited_with_counter_copy
+
             
-            print("TABU: ", tabu)
-            print("VISITED WITH COUNTER: ", visited_with_counter)
+            #print("TABU len ", len(tabu))
+            #print("VISITED WITH COUNTER: ", visited_with_counter)
             # 12, 13) insertion or deletion of an lmer
             if(len(olis)>=10):
                 if len(tabu) >= len(olis)//10:      #tabu_size
@@ -185,7 +191,7 @@ def main_tabu():
 
             is_inserted = False
             olis = sorted(lmers, key=lambda lmer: lmers[lmer])
-            print("\nbest_solution before extending/deleting: ", best_solution)
+            #print("\nbest_solution before extending/deleting: ", best_solution)
             for oli in olis:
                 if oli not in tabu:
                     # check counter in visited_with_counter && add fragment to lmers because it is useful
@@ -195,8 +201,9 @@ def main_tabu():
                         if is_inserted:
                             lmers[oli] += 1
                             visited_with_counter[oli] -= 1
-                            print("counter + ", oli)
-                            print("best_solution after adding: ", best_solution)
+                            #print("counter + ", oli)
+                            insertion_count+=1
+                            #print("best_solution after adding: ", best_solution)
                             break
 
             if not is_inserted:
@@ -211,18 +218,24 @@ def main_tabu():
 
                         # delete fragment from lmers because it is not useful
                         lmers[fragment] -= 1
-                        print("counter - ", fragment)
+                        #print("counter - ", fragment)
+                        deletion_count+=1
                         best_solution = best_solution[:-1]
                         if fragment != S0:
                             tabu.append(fragment)
-                        print("best_solution after delete: ", best_solution)
+                        #print("best_solution after delete: ", best_solution)
 
-        print("LMERS: ", lmers)
+        #print("LMERS: ", lmers)
         reference_set[0] = best_solution
-        print("reference_set[0] ", reference_set[0])
+        #print("reference_set[0] ", reference_set[0])
         olis = sorted(lmers, key=lambda lmer: lmers[lmer])
         
         i += 1
+        print("\n\nbest_solution after changes: ", best_solution)
+        print("Wydluzylismy o:", len(best_solution) - len(first_sol))
+        print("\ndeleted: ", deletion_count, "inserted", insertion_count)
+
+
        
 # --------------------------- UTIL ----------------------------------
         
