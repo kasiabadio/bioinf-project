@@ -63,109 +63,127 @@ class Graph:
         for key, value in self.graph.items():
             print("-->", key, ":  ", value, end="\n")
         
-    # --------------- HEURISTIC -----------------
 
-    def return_mer_with_lowest_and_highest_frequency(self):
-        global lmers
-        lowest = float('inf')
-        highest = float('-inf')
-        mers = ['','']
-        for key, value in lmers.items():
-            if value < lowest:
-                mers[0] = key
-            if value > highest:
-                mers[1] = key
-        return mers
+def greedy_algorithm():
+    global N, olis
+    path = []
+    all = []
+    g = Graph(N)
+    g.create_graph(olis)
+    g.print_all_paths(path, all) # create answer
+    return all[0]
 
+# --------------- HEURISTIC -----------------
 
-    def count_mer_frequency(self, mer):
-        global solutions
-        counter = 0
-        for solution in solutions:
-            if mer in solution:
-                counter += 1
-        return counter
-
-
-    def count_lmers(self, olis_set):
-        global lmers
-        for oli in olis_set:
-            if oli in lmers:
-                lmers[oli] += 1
-            else:
-                lmers[oli] = 1
+def return_mer_with_lowest_and_highest_frequency():
+    global lmers
+    lowest = float('inf')
+    highest = float('-inf')
+    mers = ['','']
+    for key, value in lmers.items():
+        if value < lowest:
+            mers[0] = key
+        if value > highest:
+            mers[1] = key
+    return mers
 
 
-    def extend_move_insert(self, mer):
-        global best_solution, tabu, K, N
-        
-        # check if can be improved
-        #if len(best_solution) > K:
-        if best_solution[(N-K+1):] != mer[:-1]:
-            # return false if no improvement
-            return False
-        
-        # insert it in solution
-        best_solution += mer[-1]
-        tabu.append(mer)
-        return True
-        
-
-    def extend_move_delete(self, mer):
-        global best_solution, tabu
-            
-        #TODO: how to delete it from solution
-        #TODO: return false if not deleted succesfully
-
-        tabu.append(mer)
-        return True
+def count_mer_frequency(mer):
+    global solutions
+    counter = 0
+    for solution in solutions:
+        if mer in solution:
+            counter += 1
+    return counter
 
 
-    def extend_move(self):
-        mers = self.return_mer_with_lowest_and_highest_frequency()
-        if mers[0] != '':
-            return 'INSERT ' + str(self.extend_move_insert(mers[0]))
-        elif mers[1] != '':
-            return 'DELETE ' + str(self.extend_move_delete(mers[1]))
+def count_lmers(olis_set):
+    global lmers
+    for oli in olis_set:
+        if oli in lmers:
+            lmers[oli] += 1
+        else:
+            lmers[oli] = 1
 
 
-    def restart(self, reference_set):
-        global solutions
-        if len(reference_set > 1) and len(solutions) > 0:
-            # replace worst solution in reference set by greedy heuristic
-            min_length_solution = float('inf')
-            to_swap = -1
-            for i, solution in enumerate(reference_set):
-                if len(solution) < min_length_solution:
-                    to_swap = i
-                    min_length_solution = len(solution)
-            reference_set[to_swap] = solutions.pop(0)
-
-        return reference_set
+def extend_move_insert(mer):
+    global best_solution, tabu, K, N
+    
+    # check if can be improved
+    #if len(best_solution) > K:
+    if best_solution[(N-K+1):] != mer[:-1]:
+        # return false if no improvement
+        return False
+    
+    # insert it in solution
+    best_solution += mer[-1]
+    tabu.append(mer)
+    return True
     
 
-    def main_tabu(self):
-        global best_solution, solutions
-        #TODO: how should it be initialized?
-        reference_set = [best_solution, best_solution]
+def extend_move_delete(mer):
+    global best_solution, tabu
+        
+    #TODO: how to delete it from solution
+    #TODO: return false if not deleted succesfully
 
-        #TODO: while not all restarts done -> how to do this?
-        reference_set = self.restart(reference_set)
-
-        #TODO: while not all extend moves without improvement done -> how to do this?
-        extend_move = self.extend_move()
-        if extend_move =='INSERT True':
-            pass
-        elif extend_move == 'INSERT False':
-            pass
-        elif extend_move == 'DELETE True':
-            pass
-        elif extend_move == 'DELETE False':
-            pass
+    tabu.append(mer)
+    return True
 
 
-    
+def extend_move():
+    mers = return_mer_with_lowest_and_highest_frequency()
+    if mers[0] != '':
+        return 'INSERT ' + str(extend_move_insert(mers[0]))
+    elif mers[1] != '':
+        return 'DELETE ' + str(extend_move_delete(mers[1]))
 
+
+def restart(reference_set, greedy_solution):
+    global lmers
+
+    # swap solutions
+    min_length_solution = float('inf')
+    to_swap = -1
+    for i, solution in enumerate(reference_set):
+        if len(solution) < min_length_solution:
+            to_swap = i
+            min_length_solution = len(solution)
+
+    # add olis to lmers from to swap
+    for i in range(len(reference_set[to_swap])-1):
+        to_delete = reference_set[to_swap][i:(i+K-1)]
+        if to_delete in lmers:
+            lmers[to_delete] -= 1
+
+    # delete olis in lmers from greedy_solution
+    for i in range(len(greedy_solution)-1):
+        to_delete = greedy_solution[i:(i+K-1)]
+        if to_delete in lmers:
+            lmers[to_delete] -= 1
+
+    reference_set[to_swap] = greedy_solution
+    return reference_set
+
+
+def main_tabu():
+    global best_solution, solutions
+    reference_set = [best_solution, '']
+
+    # 3) while not all restarts done
+    i = 0
+    while i < 5:
+        # replace the worst solution from reference_set by greedy solution
+        greedy_solution = greedy_algorithm()
+        if len(reference_set) > 1:
+            reference_set = restart(reference_set, greedy_solution)
+        print("REFERENCE SET: ", reference_set)
+        # 4)
+        
+
+        i += 1
+       
+# --------------------------- UTIL ----------------------------------
         
 def read_instance():
     global file, dna, N, S0, probe, K, olis, visited_with_counter, lmers
@@ -181,15 +199,14 @@ def read_instance():
         olis.append(oli.firstChild.nodeValue)
 
         # add to lmers set
-        if oli.firstChild.nodeValue not in lmers:
-            lmers[oli.firstChild.nodeValue] = 1
-        else:
-            lmers[oli.firstChild.nodeValue] += 1
+        lmers[oli.firstChild.nodeValue] = 0
 
         for _ in range(int(oli.getAttribute('intensity'))):
             if oli.firstChild.nodeValue not in visited_with_counter:
                 visited_with_counter[oli.firstChild.nodeValue] = int(oli.getAttribute('intensity'))
         
+
+# ------------------------ MAIN --------------------------------
 
 if __name__ == '__main__':
     
@@ -201,35 +218,15 @@ if __name__ == '__main__':
     K = -1
     olis = []
     visited_with_counter = {}
+    lmers = {}
+
     read_instance()
-    
-    # GREEDY
-    start_time = time.time()
-
-    path = []
-    all = []
-    g = Graph(N)
-    g.create_graph(olis)
-    g.print_graph()
-    for i in range(5):
-        path = []
-        g.print_all_paths(path, all)
-    
-    end_time = time.time()
-    elapsed = round(end_time - start_time, 6)
-
-    #print(all)
-    print("Elapsed time greedy: ", elapsed, " s")
-
+    best_solution = greedy_algorithm()
+    #print("greedy: ", best_solution)
 
     # HEURISTIC
-    solutions = all.copy()
-    best_solution = solutions[0]
-
-    # TODO:
-    lmers = {}
-    
     tabu = []
+    main_tabu()
     # moves - add / delete / shift of nucleotide
     # tabu tab - list of inserted / deleted / shifted nucleotides remebered for certain amount of iterations
     
