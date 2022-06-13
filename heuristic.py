@@ -130,41 +130,70 @@ def main_tabu():
     global best_solution, olis, K
     reference_set = [best_solution, '']
 
+    # add olis to lmers from first greedy solution
+    greedy_solution = greedy_algorithm()
+    for i in range(len(greedy_solution)-1):
+        to_add = greedy_solution[i:(i+K)]
+        if to_add in lmers:
+            lmers[to_add] += 1
+ 
     # 3) while not all restarts done
     i = 0
-    while i < 5:
+    while i < 5:   
         # replace the worst solution from reference_set by greedy solution
-        greedy_solution = greedy_algorithm()
         if len(reference_set) > 1:
+            greedy_solution = greedy_algorithm()
             reference_set = restart(reference_set, greedy_solution)
-        
+
         reference_set = sorted(reference_set, key=lambda x: len(x), reverse=True)
         best_solution = reference_set[0]
+        print("reference_set after sorting ", reference_set)
 
-        # 4)
-        # 12, 13)
-        is_inserted = False
-        olis = sorted(lmers, key=lambda lmer: lmers[lmer])
-        for oli in olis:
-            is_inserted = extend_move_insert(oli)
-            if is_inserted:
-                lmers[oli] += 1
-                print("counter + ", oli)
-                break
+        # 4) while not all cycles of restarts do 12, 13
+        for i in range(100):
+            
+            # 12, 13) insertion or deletion of an lmer
+            if len(tabu) >= 10:
+                tabu.pop(0)
 
-        if not is_inserted:
-            fragment = best_solution[len(best_solution)-K:]
-            print("\nbest_solution before delete: ", best_solution)
-            if fragment in lmers:
-                if lmers[fragment] > 0:
-                    lmers[fragment] -= 1
-                    print("counter - ", fragment)
-                    best_solution = best_solution[:-1]
-                    print("best_solution after delete: ", best_solution)
+            is_inserted = False
+            olis = sorted(lmers, key=lambda lmer: lmers[lmer])
+            print("\nbest_solution before extending/deleting: ", best_solution)
+            for oli in olis:
+                if oli not in tabu:
+                    # check counter in visited_with_counter && add fragment to lmers because it is useful
+                    if visited_with_counter[oli] > 0:
+                        is_inserted = extend_move_insert(oli)
+                        print("I checked addition for ", oli, " and it is ", is_inserted)
+                        if is_inserted:
+                            lmers[oli] += 1
+                            visited_with_counter[oli] -= 1
+                            print("counter + ", oli)
+                            print("best_solution after adding: ", best_solution)
+                            break
+
+            if not is_inserted:
+                fragment = best_solution[len(best_solution)-K:]
+                if fragment in lmers and fragment not in tabu:
+                    if lmers[fragment] > 0:
+                        # increase counter in visited_with_counter
+                        if fragment in visited_with_counter:
+                            visited_with_counter[fragment] += 1
+                        else:
+                            visited_with_counter[fragment] = 1
+
+                        # delete fragment from lmers because it is not useful
+                        lmers[fragment] -= 1
+                        print("counter - ", fragment)
+                        best_solution = best_solution[:-1]
+                        tabu.append(fragment)
+                        print("best_solution after delete: ", best_solution)
 
         print("LMERS: ", lmers)
         reference_set[0] = best_solution
+        print("reference_set[0] ", reference_set[0])
         olis = sorted(lmers, key=lambda lmer: lmers[lmer])
+        
         i += 1
        
 # --------------------------- UTIL ----------------------------------
