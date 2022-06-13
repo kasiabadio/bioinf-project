@@ -132,7 +132,7 @@ def restart(reference_set, greedy_solution):
 
 
 def main_tabu():
-    global best_solution, olis, K, S0, visited_with_counter
+    global best_solution, olis, K, S0, visited_with_counter, final_solutions
     
     visited_with_counter_copy = visited_with_counter.copy()
     # add olis to lmers from first greedy solution
@@ -158,15 +158,30 @@ def main_tabu():
 
         reference_set = sorted(reference_set, key=lambda x: len(x), reverse=True)
         best_solution = reference_set[0]
+        #save full length solutions
+        
+
         print("reference_set after sorting ", reference_set)
 
         # 4) while not all cycles of restarts do 12, 13
         for i in range(100):
+
+            if(len(best_solution) == N and best_solution not in final_solutions):
+                final_solutions.append(best_solution)
+                reference_set.pop(0)
+                greedy_solution = greedy_algorithm()
+                reference_set.append( greedy_solution )
+                visited_with_counter = visited_with_counter_copy
+            
             print("TABU: ", tabu)
             print("VISITED WITH COUNTER: ", visited_with_counter)
             # 12, 13) insertion or deletion of an lmer
-            if len(tabu) >= 1 + len(olis)//10:      #tabu_size
-                tabu.pop(0)
+            if(len(olis)>=10):
+                if len(tabu) >= len(olis)//10:      #tabu_size
+                    tabu.pop(0)
+            else:
+                if len(tabu) >= 3:      #tabu_size
+                    tabu.pop(0)
 
             is_inserted = False
             olis = sorted(lmers, key=lambda lmer: lmers[lmer])
@@ -245,6 +260,7 @@ if __name__ == '__main__':
     olis = []
     visited_with_counter = {}
     lmers = {}
+    final_solutions = []
 
     read_instance()
     print("MAIN VISITED WITH COUNTER ", visited_with_counter)
