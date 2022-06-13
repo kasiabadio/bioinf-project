@@ -75,28 +75,7 @@ def greedy_algorithm():
 
 # --------------- HEURISTIC -----------------
 
-def return_mer_with_lowest_and_highest_frequency():
-    global lmers
-    lowest = float('inf')
-    highest = float('-inf')
-    mers = ['','']
-    for key, value in lmers.items():
-        if value < lowest:
-            mers[0] = key
-        if value > highest:
-            mers[1] = key
-    return mers
-
-
-def count_mer_frequency(mer):
-    global solutions
-    counter = 0
-    for solution in solutions:
-        if mer in solution:
-            counter += 1
-    return counter
-
-
+# increase lmer count (after inserting a solution or deleting it)
 def count_lmers(olis_set):
     global lmers
     for oli in olis_set:
@@ -107,11 +86,10 @@ def count_lmers(olis_set):
 
 
 def extend_move_insert(mer):
-    global best_solution, tabu, K, N
+    global best_solution, tabu, K
     
     # check if can be improved
-    #if len(best_solution) > K:
-    if best_solution[(N-K+1):] != mer[:-1]:
+    if best_solution[(len(best_solution)-K):] != mer[:-1]:
         # return false if no improvement
         return False
     
@@ -120,24 +98,6 @@ def extend_move_insert(mer):
     tabu.append(mer)
     return True
     
-
-def extend_move_delete(mer):
-    global best_solution, tabu
-        
-    #TODO: how to delete it from solution
-    #TODO: return false if not deleted succesfully
-
-    tabu.append(mer)
-    return True
-
-
-def extend_move():
-    mers = return_mer_with_lowest_and_highest_frequency()
-    if mers[0] != '':
-        return 'INSERT ' + str(extend_move_insert(mers[0]))
-    elif mers[1] != '':
-        return 'DELETE ' + str(extend_move_delete(mers[1]))
-
 
 def restart(reference_set, greedy_solution):
     global lmers
@@ -150,24 +110,24 @@ def restart(reference_set, greedy_solution):
             to_swap = i
             min_length_solution = len(solution)
 
-    # add olis to lmers from to swap
+    # delete olis from lmers from to swap
     for i in range(len(reference_set[to_swap])-1):
-        to_delete = reference_set[to_swap][i:(i+K-1)]
+        to_delete = reference_set[to_swap][i:(i+K)]
         if to_delete in lmers:
             lmers[to_delete] -= 1
 
-    # delete olis in lmers from greedy_solution
+    # add olis to lmers from greedy_solution
     for i in range(len(greedy_solution)-1):
-        to_delete = greedy_solution[i:(i+K-1)]
-        if to_delete in lmers:
-            lmers[to_delete] -= 1
+        to_add = greedy_solution[i:(i+K)]
+        if to_add in lmers:
+            lmers[to_add] += 1
 
     reference_set[to_swap] = greedy_solution
     return reference_set
 
 
 def main_tabu():
-    global best_solution, solutions
+    global best_solution, olis, K
     reference_set = [best_solution, '']
 
     # 3) while not all restarts done
@@ -177,10 +137,34 @@ def main_tabu():
         greedy_solution = greedy_algorithm()
         if len(reference_set) > 1:
             reference_set = restart(reference_set, greedy_solution)
-        print("REFERENCE SET: ", reference_set)
-        # 4)
         
+        reference_set = sorted(reference_set, key=lambda x: len(x), reverse=True)
+        best_solution = reference_set[0]
 
+        # 4)
+        # 12, 13)
+        is_inserted = False
+        olis = sorted(lmers, key=lambda lmer: lmers[lmer])
+        for oli in olis:
+            is_inserted = extend_move_insert(oli)
+            if is_inserted:
+                lmers[oli] += 1
+                print("counter + ", oli)
+                break
+
+        if not is_inserted:
+            fragment = best_solution[len(best_solution)-K:]
+            print("\nbest_solution before delete: ", best_solution)
+            if fragment in lmers:
+                if lmers[fragment] > 0:
+                    lmers[fragment] -= 1
+                    print("counter - ", fragment)
+                    best_solution = best_solution[:-1]
+                    print("best_solution after delete: ", best_solution)
+
+        print("LMERS: ", lmers)
+        reference_set[0] = best_solution
+        olis = sorted(lmers, key=lambda lmer: lmers[lmer])
         i += 1
        
 # --------------------------- UTIL ----------------------------------
