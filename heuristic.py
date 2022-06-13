@@ -87,12 +87,26 @@ class Graph:
         return counter
 
 
+    def count_lmers(self, olis_set):
+        global lmers
+        for oli in olis_set:
+            if oli in lmers:
+                lmers[oli] += 1
+            else:
+                lmers[oli] = 1
+
+
     def extend_move_insert(self, mer):
-        global best_solution, tabu
+        global best_solution, tabu, K, N
         
-        #TODO: check if can be improved
-        #TODO: return false if no improvement
-        #TODO: how to insert it in solution
+        # check if can be improved
+        #if len(best_solution) > K:
+        if best_solution[(N-K+1):] != mer[:-1]:
+            # return false if no improvement
+            return False
+        
+        # insert it in solution
+        best_solution += mer[-1]
         tabu.append(mer)
         return True
         
@@ -149,12 +163,12 @@ class Graph:
         elif extend_move == 'DELETE False':
             pass
 
-        
-        
-        
 
+    
+
+        
 def read_instance():
-    global file, dna, N, S0, probe, K, olis, visited_with_counter
+    global file, dna, N, S0, probe, K, olis, visited_with_counter, lmers
     # parsuj xml
     file = minidom.parse(input())
     dna = file.firstChild
@@ -165,10 +179,17 @@ def read_instance():
    
     for oli in probe.getElementsByTagName('cell'):
         olis.append(oli.firstChild.nodeValue)
+
+        # add to lmers set
+        if oli.firstChild.nodeValue not in lmers:
+            lmers[oli.firstChild.nodeValue] = 1
+        else:
+            lmers[oli.firstChild.nodeValue] += 1
+
         for _ in range(int(oli.getAttribute('intensity'))):
             if oli.firstChild.nodeValue not in visited_with_counter:
                 visited_with_counter[oli.firstChild.nodeValue] = int(oli.getAttribute('intensity'))
-            
+        
 
 if __name__ == '__main__':
     
@@ -204,9 +225,10 @@ if __name__ == '__main__':
     # HEURISTIC
     solutions = all.copy()
     best_solution = solutions[0]
+
+    # TODO:
     lmers = {}
-    for solution in solutions:
-        lmers[solution] = 1
+    
     tabu = []
     # moves - add / delete / shift of nucleotide
     # tabu tab - list of inserted / deleted / shifted nucleotides remebered for certain amount of iterations
