@@ -40,7 +40,7 @@ class Graph:
             if answer not in all:
                 all.append(answer)
         
-        visited[u] += 1
+        #visited[u] += 1
 
     
     def print_all_paths(self, path, all):
@@ -86,7 +86,7 @@ def count_lmers(olis_set):
 
 
 def extend_move_insert(mer):
-    global best_solution, tabu, K
+    global best_solution, tabu, K, S0
     
     # check if can be improved
     if best_solution[(len(best_solution)-K):] != mer[:-1]:
@@ -95,7 +95,8 @@ def extend_move_insert(mer):
     
     # insert it in solution
     best_solution += mer[-1]
-    tabu.append(mer)
+    if mer != S0:
+        tabu.append(mer)
     return True
     
 
@@ -127,7 +128,7 @@ def restart(reference_set, greedy_solution):
 
 
 def main_tabu():
-    global best_solution, olis, K
+    global best_solution, olis, K, S0, visited_with_counter
     reference_set = [best_solution, '']
 
     # add olis to lmers from first greedy solution
@@ -139,7 +140,7 @@ def main_tabu():
  
     # 3) while not all restarts done
     i = 0
-    while i < 5:   
+    while i < 20:   
         # replace the worst solution from reference_set by greedy solution
         if len(reference_set) > 1:
             greedy_solution = greedy_algorithm()
@@ -151,7 +152,8 @@ def main_tabu():
 
         # 4) while not all cycles of restarts do 12, 13
         for i in range(100):
-            
+            print("TABU: ", tabu)
+            print("VISITED WITH COUNTER: ", visited_with_counter)
             # 12, 13) insertion or deletion of an lmer
             if len(tabu) >= 10:
                 tabu.pop(0)
@@ -186,7 +188,8 @@ def main_tabu():
                         lmers[fragment] -= 1
                         print("counter - ", fragment)
                         best_solution = best_solution[:-1]
-                        tabu.append(fragment)
+                        if fragment != S0:
+                            tabu.append(fragment)
                         print("best_solution after delete: ", best_solution)
 
         print("LMERS: ", lmers)
@@ -234,6 +237,7 @@ if __name__ == '__main__':
     lmers = {}
 
     read_instance()
+    print("MAIN VISITED WITH COUNTER ", visited_with_counter)
     best_solution = greedy_algorithm()
     #print("greedy: ", best_solution)
 
