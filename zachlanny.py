@@ -10,12 +10,14 @@ class Graph:
         self.V = vertices
         self.graph = defaultdict(list)
 
+
     def read_answer(self, k_list):
+        global N
         sequence = ''
         for i in k_list:
             sequence += i[0]
         sequence += i[1:]
-        return sequence
+        return sequence[:N]
 
 
     def print_all_paths_util(self, u, visited, path, all):
@@ -81,7 +83,6 @@ def read_instance():
                 visited_with_counter[oli.firstChild.nodeValue] = int(oli.getAttribute('intensity'))
             
 
-
 if __name__ == '__main__':
     
     file = -1
@@ -100,8 +101,8 @@ if __name__ == '__main__':
     all = []
     g = Graph(N)
     g.create_graph(olis)
-    g.print_graph()
-    for i in range(5):
+    #g.print_graph()
+    for i in range(1):
         path = []
         g.print_all_paths(path, all)
     

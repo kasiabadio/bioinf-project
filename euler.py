@@ -2,13 +2,18 @@ from math import gamma
 from xml.dom import minidom
 import time
 
-
 def read_answer(k_list):
+    #print("k_list: ", k_list)
+    #print("N: ", N, " K: ", K)
     sequence = ''
     for i in k_list:
         sequence += i[0]
+        # if len(sequence) == (N - (K - 1) + 1):
+        #     print(i)
+        #     print("i[1:] ", i[1:])
+    #print("i[1:] ", i[1:])
     sequence += i[1:]
-    return sequence
+    return sequence[:N]
 
 
 def create_debrujin_graph(olis, visited_with_counter):
@@ -46,7 +51,7 @@ def eulerian_path(k_dict, start):
     stack.append(temp_value[0][0])
     k_dict[temp_start].remove(temp_value[0][0])
 
-    while len(stack)>0 and len(path) < N: 
+    while len(stack)>0: 
         top = stack[-1]
         if(k_dict[top] != []):
             vertex = k_dict[top][0] 
