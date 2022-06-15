@@ -1,0 +1,108 @@
+<dna key="20493819" length="100" start="GGAGCTCACC">
+<!-- [number of matches] -> [intensity signal] 
+  0  ->  0 
+  1  -> 1-3
+  2  -> 3-5
+  3  -> 5-7
+  4  -> 6-8
+  5  -> 7-8
+  6  -> 7-9
+  7  -> 8-9
+  8  -> 8-9 
+  9+ ->  9 
+-->
+	<probe pattern="NNNNNNNNNN">
+		<cell intensity="2">AAGAAAACCT</cell>
+		<cell intensity="3">AAGCTGGGCA</cell>
+		<cell intensity="1">AATAGGCTGG</cell>
+		<cell intensity="3">AATCATAAGC</cell>
+		<cell intensity="2">ACAGGCTGTG</cell>
+		<cell intensity="2">ACCCTCATCT</cell>
+		<cell intensity="1">ACCCTGAATC</cell>
+		<cell intensity="2">AGAAAACCTT</cell>
+		<cell intensity="2">AGCTCACCCT</cell>
+		<cell intensity="2">AGCTGGGCAG</cell>
+		<cell intensity="2">AGGATGAGTG</cell>
+		<cell intensity="1">AGGCTCCAGG</cell>
+		<cell intensity="2">AGGCTGGACA</cell>
+		<cell intensity="1">AGGCTGTGAA</cell>
+		<cell intensity="2">AGGGACCCTG</cell>
+		<cell intensity="1">AGTGTGGGGC</cell>
+		<cell intensity="2">ATAAGCTGGG</cell>
+		<cell intensity="3">ATAGGCTGGA</cell>
+		<cell intensity="2">ATCATAAGCT</cell>
+		<cell intensity="3">ATCTCCAGGG</cell>
+		<cell intensity="3">ATGAGTGTGG</cell>
+		<cell intensity="3">CAATAGGCTG</cell>
+		<cell intensity="1">CACCCTCATC</cell>
+		<cell intensity="1">CAGGATGAGT</cell>
+		<cell intensity="3">CAGGCTCCAG</cell>
+		<cell intensity="2">CAGGCTGTGA</cell>
+		<cell intensity="1">CAGGGACCCT</cell>
+		<cell intensity="1">CATAAGCTGG</cell>
+		<cell intensity="1">CATCTCCAGG</cell>
+		<cell intensity="1">CCAGGATGAG</cell>
+		<cell intensity="2">CCAGGGACCC</cell>
+		<cell intensity="2">CCCTCATCTC</cell>
+		<cell intensity="1">CCCTGAATCA</cell>
+		<cell intensity="1">CCTCATCTCC</cell>
+		<cell intensity="3">CCTGAATCAT</cell>
+		<cell intensity="1">CTCAATAGGC</cell>
+		<cell intensity="2">CTCACCCTCA</cell>
+		<cell intensity="3">CTCATCTCCA</cell>
+		<cell intensity="2">CTCCAGGATG</cell>
+		<cell intensity="2">CTCCAGGGAC</cell>
+		<cell intensity="3">CTGAATCATA</cell>
+		<cell intensity="1">CTGGACAGGC</cell>
+		<cell intensity="1">CTGGGCAGGC</cell>
+		<cell intensity="2">CTGTGAAGAA</cell>
+		<cell intensity="1">GAAGAAAACC</cell>
+		<cell intensity="1">GAATCATAAG</cell>
+		<cell intensity="2">GACAGGCTGT</cell>
+		<cell intensity="3">GACCCTGAAT</cell>
+		<cell intensity="3">GAGCTCACCC</cell>
+		<cell intensity="2">GAGTGTGGGG</cell>
+		<cell intensity="2">GATGAGTGTG</cell>
+		<cell intensity="3">GCAGGCTCCA</cell>
+		<cell intensity="2">GCTCAATAGG</cell>
+		<cell intensity="2">GCTCACCCTC</cell>
+		<cell intensity="2">GCTCCAGGAT</cell>
+		<cell intensity="1">GCTGGACAGG</cell>
+		<cell intensity="3">GCTGGGCAGG</cell>
+		<cell intensity="3">GCTGTGAAGA</cell>
+		<cell intensity="2">GGACAGGCTG</cell>
+		<cell intensity="3">GGACCCTGAA</cell>
+		<cell intensity="1">GGAGCTCACC</cell>
+		<cell intensity="2">GGATGAGTGT</cell>
+		<cell intensity="3">GGCAGGCTCC</cell>
+		<cell intensity="1">GGCTCAATAG</cell>
+		<cell intensity="3">GGCTCCAGGA</cell>
+		<cell intensity="2">GGCTGGACAG</cell>
+		<cell intensity="2">GGCTGTGAAG</cell>
+		<cell intensity="3">GGGACCCTGA</cell>
+		<cell intensity="2">GGGCAGGCTC</cell>
+		<cell intensity="3">GGGCTCAATA</cell>
+		<cell intensity="1">GGGGCTCAAT</cell>
+		<cell intensity="2">GTGAAGAAAA</cell>
+		<cell intensity="3">GTGGGGCTCA</cell>
+		<cell intensity="1">GTGTGGGGCT</cell>
+		<cell intensity="1">TAAGCTGGGC</cell>
+		<cell intensity="3">TAGGCTGGAC</cell>
+		<cell intensity="3">TCAATAGGCT</cell>
+		<cell intensity="1">TCACCCTCAT</cell>
+		<cell intensity="3">TCATAAGCTG</cell>
+		<cell intensity="2">TCATCTCCAG</cell>
+		<cell intensity="1">TCCAGGATGA</cell>
+		<cell intensity="1">TCCAGGGACC</cell>
+		<cell intensity="3">TCTCCAGGGA</cell>
+		<cell intensity="1">TGAAGAAAAC</cell>
+		<cell intensity="2">TGAATCATAA</cell>
+		<cell intensity="2">TGAGTGTGGG</cell>
+		<cell intensity="2">TGGACAGGCT</cell>
+		<cell intensity="1">TGGGCAGGCT</cell>
+		<cell intensity="3">TGGGGCTCAA</cell>
+		<cell intensity="1">TGGTGCCTCC</cell>
+		<cell intensity="3">TGTGAAGAAA</cell>
+		<cell intensity="3">TGTGGGGCTC</cell>
+	</probe>
+</dna>

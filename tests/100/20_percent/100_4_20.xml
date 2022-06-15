@@ -1,0 +1,105 @@
+<dna key="38262617" length="100" start="GGGG">
+<!-- [number of matches] -> [intensity signal] 
+  0  ->  0 
+  1  -> 1-3
+  2  -> 3-5
+  3  -> 5-7
+  4  -> 6-8
+  5  -> 7-8
+  6  -> 7-9
+  7  -> 8-9
+  8  -> 8-9 
+  9+ ->  9 
+-->
+	<probe pattern="NNNN">
+		<cell intensity="7">AAAA</cell>
+		<cell intensity="8">AAAC</cell>
+		<cell intensity="4">AAAT</cell>
+		<cell intensity="6">AACA</cell>
+		<cell intensity="2">AACC</cell>
+		<cell intensity="1">AAGC</cell>
+		<cell intensity="2">AAGG</cell>
+		<cell intensity="3">AATC</cell>
+		<cell intensity="1">AATT</cell>
+		<cell intensity="5">ACAA</cell>
+		<cell intensity="3">ACAG</cell>
+		<cell intensity="7">ACCT</cell>
+		<cell intensity="2">ACTG</cell>
+		<cell intensity="3">ACTT</cell>
+		<cell intensity="2">AGAA</cell>
+		<cell intensity="2">AGAG</cell>
+		<cell intensity="3">AGCA</cell>
+		<cell intensity="2">AGGC</cell>
+		<cell intensity="2">AGTG</cell>
+		<cell intensity="2">AGTT</cell>
+		<cell intensity="3">ATCC</cell>
+		<cell intensity="1">ATGA</cell>
+		<cell intensity="1">ATGT</cell>
+		<cell intensity="1">ATTT</cell>
+		<cell intensity="7">CAAA</cell>
+		<cell intensity="1">CAAG</cell>
+		<cell intensity="2">CACA</cell>
+		<cell intensity="3">CAGA</cell>
+		<cell intensity="3">CAGT</cell>
+		<cell intensity="2">CATC</cell>
+		<cell intensity="1">CCAA</cell>
+		<cell intensity="2">CCAC</cell>
+		<cell intensity="1">CCAG</cell>
+		<cell intensity="4">CCCA</cell>
+		<cell intensity="1">CCGC</cell>
+		<cell intensity="1">CCTA</cell>
+		<cell intensity="1">CCTC</cell>
+		<cell intensity="1">CCTG</cell>
+		<cell intensity="2">CCTT</cell>
+		<cell intensity="1">CGGA</cell>
+		<cell intensity="1">CTAA</cell>
+		<cell intensity="3">CTCC</cell>
+		<cell intensity="1">CTCG</cell>
+		<cell intensity="1">CTCT</cell>
+		<cell intensity="1">CTGA</cell>
+		<cell intensity="1">CTGC</cell>
+		<cell intensity="3">CTTA</cell>
+		<cell intensity="1">CTTG</cell>
+		<cell intensity="1">CTTT</cell>
+		<cell intensity="1">GAAA</cell>
+		<cell intensity="3">GAAG</cell>
+		<cell intensity="3">GACC</cell>
+		<cell intensity="1">GACG</cell>
+		<cell intensity="5">GACT</cell>
+		<cell intensity="1">GATC</cell>
+		<cell intensity="2">GATG</cell>
+		<cell intensity="2">GCAA</cell>
+		<cell intensity="2">GCAT</cell>
+		<cell intensity="1">GCCC</cell>
+		<cell intensity="1">GCGA</cell>
+		<cell intensity="3">GGAT</cell>
+		<cell intensity="5">GGCA</cell>
+		<cell intensity="1">GGCC</cell>
+		<cell intensity="3">GGGA</cell>
+		<cell intensity="1">GGGG</cell>
+		<cell intensity="2">GTAA</cell>
+		<cell intensity="2">GTGA</cell>
+		<cell intensity="1">GTTA</cell>
+		<cell intensity="5">TAAA</cell>
+		<cell intensity="1">TACA</cell>
+		<cell intensity="1">TACC</cell>
+		<cell intensity="1">TAGA</cell>
+		<cell intensity="1">TAGG</cell>
+		<cell intensity="1">TCCA</cell>
+		<cell intensity="5">TCCC</cell>
+		<cell intensity="1">TCTC</cell>
+		<cell intensity="1">TCTT</cell>
+		<cell intensity="2">TGAA</cell>
+		<cell intensity="5">TGAC</cell>
+		<cell intensity="1">TGGA</cell>
+		<cell intensity="3">TGTA</cell>
+		<cell intensity="1">TTAA</cell>
+		<cell intensity="2">TTAC</cell>
+		<cell intensity="1">TTAG</cell>
+		<cell intensity="1">TTCT</cell>
+		<cell intensity="1">TTGA</cell>
+		<cell intensity="3">TTGT</cell>
+		<cell intensity="5">TTTC</cell>
+		<cell intensity="1">TTTG</cell>
+	</probe>
+</dna>
