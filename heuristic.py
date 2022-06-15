@@ -1,4 +1,3 @@
-
 from xml.dom import minidom
 import time
 from collections import defaultdict
@@ -43,12 +42,13 @@ class Graph:
             if answer not in all:
                 all.append(answer)
         
-        #visited[u] += 1
+        visited[u] += 1
 
     
-    def print_all_paths(self, path, all):
-        global S0, visited_with_counter
-        self.print_all_paths_util(S0, visited_with_counter, path, all)
+    def print_all_paths(self, path, all, visited):
+        global S0
+        #print("S0: ", S0)
+        self.print_all_paths_util(S0, visited, path, all)
         
     def create_graph(self, olis):
         global K
@@ -67,13 +67,12 @@ class Graph:
             print("-->", key, ":  ", value, end="\n")
         
 
-def greedy_algorithm():
+def greedy_algorithm(g, visited):
     global N, olis
     path = []
     all = []
-    g = Graph(N)
-    g.create_graph(olis)
-    g.print_all_paths(path, all) # create answer
+    
+    g.print_all_paths(path, all, visited) # create answer
     return all[0]
 
 # --------------- HEURISTIC -----------------
@@ -133,14 +132,15 @@ def restart(reference_set, greedy_solution):
 
 def main_tabu():
     global best_solution, olis, K, S0, visited_with_counter, final_solutions
-    
-    visited_with_counter_copy = visited_with_counter.copy()
+    reference_set = []
+
+    g = Graph(N)
+    g.create_graph(olis)
+
     # add olis to lmers from first greedy solution
     for j in range(4):
-        greedy_solution = greedy_algorithm()
+        greedy_solution = greedy_algorithm(g, visited_with_counter)
         reference_set.append(greedy_solution)
-
-    visited_with_counter = visited_with_counter_copy
 
     for i in range(len(greedy_solution)-1):
         to_add = greedy_solution[i:(i+K)]
@@ -148,7 +148,7 @@ def main_tabu():
             lmers[to_add] += 1
     
     reference_set = sorted(reference_set, key=lambda x: len(x), reverse=True)
-    best_solution = greedy_solution
+    best_solution = reference_set[0]
     #reference_set = [best_solution, '']
  
     # 3) while not all restarts done
@@ -159,22 +159,24 @@ def main_tabu():
     del_insert_tab = [[],[]]
     temporary_best = ["", 0]
     while loop_count_outer < 10:
-            
-        greedy_solution = greedy_algorithm()
+        
+        #visited_with_counter = visited_with_counter_copy
+        greedy_solution = greedy_algorithm(g, visited_with_counter)
         reference_set.append(greedy_solution)
+      
+
         # replace the worst solution from reference_set by greedy solution
         if len(reference_set) > 1:
-            greedy_solution = greedy_algorithm()
-            visited_with_counter = visited_with_counter_copy
+            greedy_solution = greedy_algorithm(g, visited_with_counter)
             reference_set = restart(reference_set, greedy_solution)
 
         reference_set = sorted(reference_set, key=lambda x: len(x), reverse=True)
         best_solution = reference_set[0]
 
-        first_sol = best_solution
         print("\nbest_solution before extending/deleting: \n", best_solution)
         print("\nREFERENCE SET SIZE:", len(reference_set))
 
+        # loop for making stop points
         while loop_count < 8:  
            
             #print("reference_set after sorting ", reference_set)
@@ -188,9 +190,12 @@ def main_tabu():
                 if(len(best_solution) == N and best_solution not in final_solutions):
                     final_solutions.append(best_solution)
                     reference_set.pop(0)
-                    greedy_solution = greedy_algorithm()
+
+                    greedy_solution = greedy_algorithm(g, visited_with_counter)
+
                     reference_set.append( greedy_solution )
-                    visited_with_counter = visited_with_counter_copy
+                    best_solution = reference_set[0]
+                    
 
             
                 #print("TABU len ", len(tabu))
@@ -270,6 +275,8 @@ def main_tabu():
         loop_count_outer+=1
     print("\n\n------FINAL: \n searching for length: ", N, "\nour lengths: \n", lenghts_tab, "\n deletion count: \n", del_insert_tab[0], "\ninsertion count: \n", del_insert_tab[1])
     print("Best solution len: ", temporary_best[1])
+
+    # all solutions from outer while 
     final_solutions.append(temporary_best[1])
     print("final", final_solutions)
     reference_set.pop(0)
