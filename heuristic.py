@@ -158,6 +158,8 @@ def main_tabu():
     lenghts_tab = []
     del_insert_tab = [[],[]]
     temporary_best = ["", 0]
+    final_solutions_outer_loop = []
+    final_solutions_outer_loop_lengths = []
     while loop_count_outer < 10:
         
         #visited_with_counter = visited_with_counter_copy
@@ -173,9 +175,7 @@ def main_tabu():
         reference_set = sorted(reference_set, key=lambda x: len(x), reverse=True)
         best_solution = reference_set[0]
 
-        print("\nbest_solution before extending/deleting: \n", best_solution)
-        print("\nREFERENCE SET SIZE:", len(reference_set))
-
+        loop_count = 0
         # loop for making stop points
         while loop_count < 8:  
            
@@ -258,10 +258,11 @@ def main_tabu():
             #print("LMERS: ", lmers)
             reference_set[0] = best_solution
             #print("reference_set[0] ", reference_set[0])
+
             olis = sorted(lmers, key=lambda lmer: lmers[lmer])
             temp_length = len(best_solution)
         
-            loop_count += 1
+            
             #print("\n\nbest_solution after changes: ", best_solution)
             #print("Wydluzylismy o:", temp_length - len(first_sol))
             lenghts_tab.append(temp_length)
@@ -269,20 +270,33 @@ def main_tabu():
             #print("Szukana dlugosc lancucha: ", N, " dlugosc znalezionego lancucha: ", temp_length)
             del_insert_tab[0].append(deletion_count)
             del_insert_tab[1].append(insertion_count)
+
             #zapisz najlepsze rozwiązanie z iteracji while
             if(temporary_best[1]<temp_length):
                 temporary_best = [best_solution, temp_length]
+
+            if loop_count == 7:
+                final_solutions_outer_loop.append(best_solution)
+                final_solutions_outer_loop_lengths.append(temp_length)
+            
+            loop_count += 1
+
         loop_count_outer+=1
-    print("\n\n------FINAL: \n searching for length: ", N, "\nour lengths: \n", lenghts_tab, "\n deletion count: \n", del_insert_tab[0], "\ninsertion count: \n", del_insert_tab[1])
-    print("Best solution len: ", temporary_best[1])
+
 
     # all solutions from outer while 
     final_solutions.append(temporary_best[1])
-    print("final", final_solutions)
-    reference_set.pop(0)
+    print("FINAL")
+    for solution in final_solutions_outer_loop:
+        print(solution)
+    print("FINAL LENGTHS", final_solutions_outer_loop_lengths)
 
+    print("Max length: ", max(final_solutions_outer_loop_lengths))
 
-       
+    #print("\n\n------FINAL: \n searching for length: ", N, "\nour lengths: \n", lenghts_tab, "\n deletion count: \n", del_insert_tab[0], "\ninsertion count: \n", del_insert_tab[1])
+    #print("Best solution len: ", temporary_best[1])
+
+    
 # --------------------------- UTIL ----------------------------------
         
 def read_instance():
@@ -328,15 +342,10 @@ if __name__ == '__main__':
     #print("greedy: ", best_solution)
 
     # HEURISTIC
+    start_time = time.time()
     tabu = []
     main_tabu()
-    # moves - add / delete / shift of nucleotide
-    # tabu tab - list of inserted / deleted / shifted nucleotides remebered for certain amount of iterations
-    
-    # global evaluation -> length of sequence (for making the sequence longer)
-
-    # (when algorithm is stuck) 
-    # count number of times oligonucleotide is included in solutions, 
-    # add l-mer with lowest value to solution 
-    # else if no feasable insertion then deletion is applied
-    # e.g. frequency value of l-mer = number of iterations
+    end_time = time.time()
+    elapsed = round(end_time - start_time, 6)
+    print("Elapsed time: ", elapsed, " s")
+   
