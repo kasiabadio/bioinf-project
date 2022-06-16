@@ -142,10 +142,10 @@ def main_tabu():
         greedy_solution = greedy_algorithm(g, visited_with_counter)
         reference_set.append(greedy_solution)
 
-    for i in range(len(greedy_solution)-1):
-        to_add = greedy_solution[i:(i+K)]
-        if to_add in lmers:
-            lmers[to_add] += 1
+        for i in range(len(greedy_solution)-1):
+            to_add = greedy_solution[i:(i+K)]
+            if to_add in lmers:
+                lmers[to_add] += 1
     
     reference_set = sorted(reference_set, key=lambda x: len(x), reverse=True)
     best_solution = reference_set[0]
@@ -165,12 +165,23 @@ def main_tabu():
         #visited_with_counter = visited_with_counter_copy
         greedy_solution = greedy_algorithm(g, visited_with_counter)
         reference_set.append(greedy_solution)
+        
+        for i in range(len(greedy_solution)-1):
+            to_add = greedy_solution[i:(i+K)]
+            if to_add in lmers:
+                lmers[to_add] += 1
       
 
         # replace the worst solution from reference_set by greedy solution
         if len(reference_set) > 1:
             greedy_solution = greedy_algorithm(g, visited_with_counter)
             reference_set = restart(reference_set, greedy_solution)
+            
+            for i in range(len(greedy_solution)-1):
+            to_add = greedy_solution[i:(i+K)]
+            if to_add in lmers:
+                lmers[to_add] += 1
+                #should sort it somewhere by the frequencies....
 
         reference_set = sorted(reference_set, key=lambda x: len(x), reverse=True)
         best_solution = reference_set[0]
