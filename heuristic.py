@@ -198,7 +198,7 @@ def main_tabu():
 
             for i in range(400):
                 #save full length solutions
-                if(len(best_solution) == N and best_solution not in final_solutions):
+                if(len(best_solution) >= N and best_solution not in final_solutions):
                     final_solutions.append(best_solution)
                     reference_set.pop(0)
 
